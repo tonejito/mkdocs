@@ -12,6 +12,8 @@ Este sitio es una plantilla de `mkdocs` en GitLab Pages
 - <https://www.mkdocs.org/>
 - <https://pages.gitlab.io/>
 - <https://about.gitlab.com/stages-devops-lifecycle/pages/>
+- <https://gitlab.com/help/user/project/pages/index>
+- <https://gitlab.com/help/user/project/pages/getting_started/pages_ci_cd_template.html>
 
 ## Componentes
 
@@ -54,6 +56,11 @@ $ tree -a .
     - Opcionalmente crear mas carpetas dentro de `docs/`, cada una con su archivo `index.md`
     - Cada carpeta hará que se muestre una entrada adicional en el menú
 - Hacer commit y push al repositorio
+    - Revisar si en el último _pipeline_ hay un par de tareas llamadas `pages` y `pages:deploy`
+    - <https://gitlab.com/tonejito/mkdocs.gitlab.io/-/pipelines/>
+- Revisar que GitLab haya reconocido la configuración de Pages
+    - <https://gitlab.com/tonejito/mkdocs.gitlab.io/pages>
 - Esperar a ver el sitio en `https://NOMBRE.gitlab.io/`
+    - Este proceso toma aproximadamente 30 minutos
 
 --------------------------------------------------------------------------------
