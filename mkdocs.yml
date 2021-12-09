@@ -1,12 +1,12 @@
 # https://www.mkdocs.org/user-guide/configuration/
-repo_name: mkdocs.gitlab.io
-repo_url: https://gitlab.com/tonejito/mkdocs.gitlab.io
+repo_name: tonejito/mkdocs
+repo_url: https://gitlab.com/tonejito/mkdocs
 edit_uri: -/tree/master/docs
 
 site_name: mkdocs
 site_description: Documentación de proyectos con Markdown
 copyright: CC-BY-SA-4.0
-site_url: https://mkdocs.gitlab.io
+site_url: https://gitlab.com/tonejito/mkdocs
 site_dir: public
 docs_dir: docs
 
