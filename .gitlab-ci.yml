@@ -1,11 +1,10 @@
 # https://gitlab.com/pages/mkdocs/blob/master/.gitlab-ci.yml
 #	= ^ . ^ =
-image: python:3.10-slim-bullseye
+image: python:3.10-alpine
 
 before_script:
-- cp -vf .apt.conf.d/99-local /etc/apt/apt.conf.d/99-local
-- apt update
-- apt install make
+- apk --quiet --no-progress update
+- apk --quiet --no-progress add bash make
 - pip config --global set global.progress_bar off
 - pip install --quiet --upgrade pip
 - pip install --quiet --requirement requirements.txt
