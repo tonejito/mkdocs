@@ -1,11 +1,14 @@
 # https://www.mkdocs.org/user-guide/configuration/
 repo_name: tonejito/mkdocs
 repo_url: https://gitlab.com/tonejito/mkdocs
-edit_uri: -/tree/master/docs
+edit_uri: -/tree/main/docs
 
+dev_addr: "localhost:8000"
+
+copyright: CC-BY-SA-4.0
 site_name: mkdocs
 site_description: Documentación de proyectos con Markdown
-copyright: CC-BY-SA-4.0
+site_author: Andrés Hernández
 site_url: https://gitlab.com/tonejito/mkdocs
 site_dir: public
 docs_dir: docs
@@ -15,6 +18,7 @@ extra_css:
 
 extra_javascript:
 - js/extra.js
+- js/browser-update.js
 
 # https://www.mkdocs.org/user-guide/choosing-your-theme/
 theme:
@@ -24,8 +28,23 @@ theme:
   navigation_depth: 4
   collapse_navigation: true
   titles_only: true
+  use_directory_urls: true
+#  analytics:
+#    gtag: G-XXXXXXXXXX
+  palette:
+    primary: green
 
 markdown_extensions:
 - toc:
     permalink: "#"
     separator: "-"
+- admonition
+- attr_list
+- def_list
+- extra
+- pymdownx.details
+
+plugins:
+  - exclude:
+      glob:
+        - ".*.sw?"
