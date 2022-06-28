@@ -9,7 +9,7 @@ test:	build
 
 install:
 	which ${MKDOCS} || \
-	pip3 install --user --requirement requirements.txt
+	pip3 install --quiet --user --requirement requirements.txt
 
 build:	install
 	${MKDOCS} $@ --strict
