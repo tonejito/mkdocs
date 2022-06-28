@@ -1,21 +1,57 @@
 # https://gitlab.com/pages/mkdocs/blob/master/.gitlab-ci.yml
 #	= ^ . ^ =
-image: python:3.10-alpine
+# Alpine cannot be used because of missing development headers
+image: python:3.10-slim-bullseye
 
+variables:
+  TERM: linux
+  DEBIAN_PRIORITY: critical
+  DEBIAN_FRONTEND: noninteractive
+  DEBCONF_NOWARNINGS: "yes"
+  DEBCONF_TERSE: "yes"
+  DEBCONF_NONINTERACTIVE_SEEN: "true"
+  PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+cache:
+  paths:
+    - ${PRE_COMMIT_HOME}
+
+# The apt.conf.d configuration is on an URL but the container doesn't have 'wget' installed, thus the configuration is inlinie
+# We could add a file and copy it on the container, but I'd prefer to have the config inline
+# /etc/apt/apt.conf.d/99-local
+# https://github.com/tonejito/debian-apt/raw/master/debian-10-buster/apt.conf.d/99-local
 before_script:
-- apk --quiet --no-progress update
-- apk --quiet --no-progress add bash make
+- truncate --size=0 /etc/apt/apt.conf.d/99-local
+- echo 'quiet "2";'                   >> /etc/apt/apt.conf.d/99-local
+- echo 'APT::Get::Assume-Yes "1";'    >> /etc/apt/apt.conf.d/99-local
+- echo 'APT::Install-Recommends "0";' >> /etc/apt/apt.conf.d/99-local
+- echo 'APT::Install-Suggests "0";'   >> /etc/apt/apt.conf.d/99-local
+- echo 'APT::Color "0";'              >> /etc/apt/apt.conf.d/99-local
+- echo 'Dpkg::Progress "0";'          >> /etc/apt/apt.conf.d/99-local
+- echo 'Dpkg::Progress-Fancy "0";'    >> /etc/apt/apt.conf.d/99-local
+- apt-get update
+- apt-get install make git
+- pip config --global set global.quiet 3
 - pip config --global set global.progress_bar off
-- pip install --quiet --upgrade pip
-- pip install --quiet --requirement requirements.txt
+- pip install --upgrade pip
+- pip install pre-commit
+- pip install --requirement requirements.txt
+
+stages:
+- build
+- test
+- deploy
+
+pre_commit:
+  stage: build
+  script:
+  - pre-commit autoupdate
+  - pre-commit install
+  - pre-commit run --all-files
 
 test:
   stage: test
   script:
   - make test
-  artifacts:
-    paths:
-    - test
   except:
   - main
 
